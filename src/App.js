@@ -1,23 +1,39 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from "react";
+import "./App.css";
 
 function App() {
+  const [data, setData] = useState([]);
+  const [enterText, setEnterText] = useState("");
+
+  useEffect(() => {
+    fetch("https://api.github.com/emojis")
+      .then((res) => res.json())
+      .then((result) => {
+        let resultArray = Object.entries(result);
+        setData(resultArray);
+      });
+  }, []);
+
+  const searchHandler = (e) => {
+    // console.log("data", data);
+    let newData = data.filter((oneData) => oneData[0].includes(e.target.value));
+    console.log("newData", newData);
+    setEnterText(e.target.value);
+    setData(newData);
+  };
+
+  let listItems = data.map((item) => (
+    <li key={item[0]}>
+      <img src={item[1]} />
+      <p>{item[0]}</p>
+    </li>
+  ));
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Emoji Search</h1>
+      <input value={enterText} onChange={searchHandler} />
+      <ul className="List-emoji">{listItems}</ul>
     </div>
   );
 }
