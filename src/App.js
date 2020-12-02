@@ -15,14 +15,13 @@ function App() {
   }, []);
 
   const searchHandler = (e) => {
-    // console.log("data", data);
-    let newData = data.filter((oneData) => oneData[0].includes(e.target.value));
-    console.log("newData", newData);
     setEnterText(e.target.value);
-    setData(newData);
   };
 
-  let listItems = data.map((item) => (
+  let newData = data.filter((oneData) => oneData[0].includes(enterText));
+  console.log("newData", newData);
+
+  let listItems = newData.map((item) => (
     <li key={item[0]}>
       <img src={item[1]} />
       <p>{item[0]}</p>
