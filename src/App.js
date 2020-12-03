@@ -18,19 +18,24 @@ function App() {
     setEnterText(e.target.value);
   };
 
+  const copyEmojiHandler = () => {};
+
   let newData = data.filter((oneData) => oneData[0].includes(enterText));
-  console.log("newData", newData);
 
   let listItems = newData.map((item) => (
     <li key={item[0]}>
-      <img src={item[1]} />
+      <img src={item[1]} alt={item[0]} />
       <p>{item[0]}</p>
     </li>
   ));
 
   return (
     <div className="App">
-      <h1>Emoji Search</h1>
+      <div className="Title">
+        <img src="https://github.githubassets.com/images/icons/emoji/unicode/1f638.png?v8" />{" "}
+        <h1>Emoji Search</h1>
+        <img src="https://github.githubassets.com/images/icons/emoji/unicode/1f408.png?v8" />
+      </div>
       <input value={enterText} onChange={searchHandler} />
       <ul className="List-emoji">{listItems}</ul>
     </div>

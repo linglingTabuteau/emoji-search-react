@@ -4,6 +4,10 @@
 h1 {
   text-align: center;
 }
+.Title {
+  display: flex;
+  justify-content: center;
+}
 .List-emoji {
   list-style: none;
   width: 100%;
@@ -12,6 +16,9 @@ li {
   /* display: left; */
   display: flex;
   border-bottom: 2px solid skyblue;
+}
+li:hover {
+  background-color: skyblue;
 }
 li img {
   display: left;
