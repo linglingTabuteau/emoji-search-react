@@ -22,6 +22,7 @@ li:hover {
 }
 .TextColor {
   color: white;
+  margin-left: 50%;
 }
 li:hover.TextColor {
   color: skyblue;

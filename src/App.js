@@ -2,45 +2,34 @@ import React, { useState, useEffect } from "react";
 import "./App.css";
 
 function App() {
-  const [data, setData] = useState([]);
-  const [enterText, setEnterText] = useState("");
-  const [urlImage, setUrlImage] = useState("");
+  const [emojis, setEmojis] = useState([]);
+  const [searchText, setSearchText] = useState("");
+  const [copyUrlImage, setCopyUrlImage] = useState("");
 
-  // use Promise to fetch the data
-  // useEffect(() => {
-  //   fetch("https://api.github.com/emojis")
-  //     .then((res) => res.json())
-  //     .then((result) => {
-  //       let resultArray = Object.entries(result);
-  //       setData(resultArray);
-  //     });
-  // }, []);
-
-  const getData = async function (url) {
-    let response = await fetch(url);
-    let data = await response.json();
-    return data;
-  };
-
-  // use Async And Await to get data
+  // use Async And Await to get Emojis Data
   useEffect(() => {
-    getData("https://api.github.com/emojis").then((data) => {
+    const getData = async (url) => {
+      let response = await fetch(url);
+      let data = await response.json();
       let resultArray = Object.entries(data);
-      setData(resultArray);
-    });
+      setEmojis(resultArray);
+    };
+    getData("https://api.github.com/emojis");
   }, []);
 
   const searchHandler = (e) => {
-    setEnterText(e.target.value);
+    setSearchText(e.target.value);
   };
 
   const copyEmojiHandler = (urlImg) => {
-    setUrlImage(urlImg);
+    setCopyUrlImage(urlImg);
   };
 
-  let newData = data.filter((oneData) => oneData[0].includes(enterText));
+  let emojisFilter = emojis.filter((oneData) =>
+    oneData[0].includes(searchText)
+  );
 
-  let listItems = newData.map((item) => (
+  let listItems = emojisFilter.map((item) => (
     <li key={item[0]} onClick={() => copyEmojiHandler(item[1])}>
       <img src={item[1]} alt={item[0]} />
       <p>{item[0]}</p>
@@ -49,8 +38,8 @@ function App() {
   ));
 
   let copyEmoji = null;
-  if (urlImage) {
-    copyEmoji = <input src={urlImage} type="image" className="ImgWidth" />;
+  if (copyUrlImage) {
+    copyEmoji = <input src={copyUrlImage} type="image" className="ImgWidth" />;
   }
 
   return (
@@ -60,7 +49,7 @@ function App() {
         <h1>Emoji Search</h1>
         <img src="https://github.githubassets.com/images/icons/emoji/unicode/1f408.png?v8" />
       </div>
-      <input value={enterText} onChange={searchHandler} />
+      <input value={searchText} onChange={searchHandler} />
       {copyEmoji}
       <ul className="List-emoji">{listItems}</ul>
     </div>
