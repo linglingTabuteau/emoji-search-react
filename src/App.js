@@ -6,13 +6,28 @@ function App() {
   const [enterText, setEnterText] = useState("");
   const [urlImage, setUrlImage] = useState("");
 
+  // use Promise to fetch the data
+  // useEffect(() => {
+  //   fetch("https://api.github.com/emojis")
+  //     .then((res) => res.json())
+  //     .then((result) => {
+  //       let resultArray = Object.entries(result);
+  //       setData(resultArray);
+  //     });
+  // }, []);
+
+  const getData = async function (url) {
+    let response = await fetch(url);
+    let data = await response.json();
+    return data;
+  };
+
+  // use Async And Await to get data
   useEffect(() => {
-    fetch("https://api.github.com/emojis")
-      .then((res) => res.json())
-      .then((result) => {
-        let resultArray = Object.entries(result);
-        setData(resultArray);
-      });
+    getData("https://api.github.com/emojis").then((data) => {
+      let resultArray = Object.entries(data);
+      setData(resultArray);
+    });
   }, []);
 
   const searchHandler = (e) => {
@@ -20,7 +35,6 @@ function App() {
   };
 
   const copyEmojiHandler = (urlImg) => {
-    console.log("ok");
     setUrlImage(urlImg);
   };
 
